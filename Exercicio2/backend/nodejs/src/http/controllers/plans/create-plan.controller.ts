@@ -1,4 +1,4 @@
-import { makeCreatePlanService } from '@/factories/plans-services/make-create-plan.service'
+import { makeCreatePlanService } from '@/factories/plans-services/make-create-plan.factory'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 

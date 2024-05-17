@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeUpdatePlanService } from '@/factories/plans-services/make-update-plan.service'
+import { makeUpdatePlanService } from '@/factories/plans-services/make-update-plan.factory'
 import { PLanNotFoundError } from '@/services/error/plan-not-found-error'
 
 const updatePlanBodySchema = z.object({

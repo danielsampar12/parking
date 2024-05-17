@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id           Int           @id @default(autoincrement())
+  name         String        @db.VarChar(50)
+  cardId       String        @map("card_id") @db.VarChar(10)
+  Vehicle      Vehicle[]
+  CustomerPlan CustomerPlan?
+
+  @@map("customers")
+}
+
+model Vehicle {
+  id          Int     @id @default(autoincrement())
+  plate       String  @db.VarChar(10)
+  model       String? @db.VarChar(30)
+  description String? @db.VarChar(50)
+
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId Int?      @map("customer_id")
+
+  ParkMovement ParkMovement[]
+
+  @@map("vehicles")
+}
+
+model Plan {
+  id           Int           @id @default(autoincrement())
+  description  String        @db.VarChar(50)
+  value        Float
+  CustomerPlan CustomerPlan?
+
+  @@map("plans")
+}
+
+model CustomerPlan {
+  id      Int       @id @default(autoincrement())
+  dueDate DateTime? @map("due_date")
+
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int      @unique @map("customer_id")
+  plan       Plan     @relation(fields: [planId], references: [id])
+  planId     Int      @unique @map("plan_id")
+
+  @@map("customer_plans")
+}
+
+model Contract {
+  id           Int           @id @default(autoincrement())
+  description  String        @db.VarChar(50)
+  maxValue     Float?        @map("max_value")
+  ContractRule ContractRule?
+
+  @@map("contracts")
+}
+
+model ContractRule {
+  id    Int   @id @default(autoincrement())
+  until Int
+  value Float
+
+  contract   Contract @relation(fields: [contractId], references: [id])
+  contractId Int      @unique @map("contract_id")
+
+  @@map("contract_rules")
+}
+
+model ParkMovement {
+  id        Int       @id @default(autoincrement())
+  entryDate DateTime  @map("entry_date")
+  exitDate  DateTime? @map("exit_date")
+
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicleId Int
+
+  @@map("park_movements")
+}

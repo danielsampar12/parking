@@ -7,4 +7,5 @@ export interface ContractsRepository {
     data: Prisma.ContractUpdateInput,
   ): Promise<Contract>
   findById(id: number): Promise<Contract | null>
+  findFirst(): Promise<Contract | null>
 }

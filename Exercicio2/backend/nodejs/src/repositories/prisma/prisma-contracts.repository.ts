@@ -11,6 +11,10 @@ export class PrismaContractsRepository implements ContractsRepository {
     return await prisma.contract.findUnique({ where: { id } })
   }
 
+  async findFirst(): Promise<Contract | null> {
+    return await prisma.contract.findFirst()
+  }
+
   async update(
     contractId: number,
     data: Prisma.ContractUpdateInput,

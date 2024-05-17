@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { PLanNotFoundError } from '@/services/error/plan-not-found-error'
 import { makeUpdateVehicleService } from '@/factories/vehicle-services/make-update-vehicle.factory'
+import { VechicleNotFoundError } from '@/services/error/vehicle-not-foudn-error'
 
 const updateVehicleBodySchema = z.object({
   vehicleId: z.number(),
@@ -25,7 +25,7 @@ export async function updateVehicleController(
 
     return reply.status(200).send(vehicle)
   } catch (error) {
-    if (error instanceof PLanNotFoundError) {
+    if (error instanceof VechicleNotFoundError) {
       return reply.status(400).send({ message: error.message })
     }
 

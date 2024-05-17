@@ -1,5 +1,6 @@
 import { VehiclesRepository } from '@/repositories/vechiles.repository'
 import { Vehicle } from '@prisma/client'
+import { VechicleNotFoundError } from '../error/vehicle-not-foudn-error'
 
 interface UpdateVehicleRequest {
   vehicleId: number
@@ -21,6 +22,12 @@ export class UpdateVehicleService {
     vehicleId,
     data,
   }: UpdateVehicleRequest): Promise<UpdateVehicleResponse> {
+    const existingVehicle = await this.vehiclesRepository.findById(vehicleId)
+
+    if (!existingVehicle) {
+      throw new VechicleNotFoundError(vehicleId)
+    }
+
     const vehicle = await this.vehiclesRepository.update(vehicleId, data)
 
     return { vehicle }

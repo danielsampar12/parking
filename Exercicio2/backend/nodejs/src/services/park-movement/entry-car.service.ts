@@ -3,6 +3,7 @@ import { VehiclesRepository } from '@/repositories/vechiles.repository'
 import { ParkMovement } from '@prisma/client'
 import { CantEntryCar } from '../error/cant-entry-card-error'
 import { VechicleNotFoundError } from '../error/vehicle-not-foudn-error'
+import { OpendParkMovementError } from '../error/opened-park-moviment-error'
 
 interface EntryCarRequest {
   entryDate?: Date
@@ -25,6 +26,13 @@ export class EntryCarService {
     cardId,
     plate,
   }: EntryCarRequest): Promise<EntryCarResponse> {
+    const openedParkMovement =
+      await this.parkMovementsRepository.findOpenedParkMovement(plate, cardId)
+
+    if (openedParkMovement) {
+      throw new OpendParkMovementError({ plate, cardId })
+    }
+
     if (plate) {
       const parkMovement = await this.parkMovementsRepository.create({
         entryDate,

@@ -1,5 +1,6 @@
 import { makeEntryCarService } from '@/factories/park-movements-services/make-entry-car-sercvice.factory'
 import { CantEntryCar } from '@/services/error/cant-entry-card-error'
+import { OpendParkMovementError } from '@/services/error/opened-park-moviment-error'
 import { VechicleNotFoundError } from '@/services/error/vehicle-not-foudn-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -25,7 +26,8 @@ export async function entryCarController(
   } catch (error) {
     if (
       error instanceof VechicleNotFoundError ||
-      error instanceof CantEntryCar
+      error instanceof CantEntryCar ||
+      error instanceof OpendParkMovementError
     ) {
       return reply.status(400).send({ message: error.message })
     }

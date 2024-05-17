@@ -31,7 +31,7 @@ export async function updateContractController(
     return reply.status(200).send(contract)
   } catch (error) {
     if (error instanceof ContractNotFoundError) {
-      return reply.status(400).send(error.message)
+      return reply.status(400).send({ message: error.message })
     }
 
     throw error

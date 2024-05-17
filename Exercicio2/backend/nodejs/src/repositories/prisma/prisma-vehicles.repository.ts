@@ -7,6 +7,22 @@ export class PrismaVehiclesRepository implements VehiclesRepository {
     return await prisma.vehicle.create({ data })
   }
 
+  async connectToCustomer(
+    customerId: number,
+    vehicleId: number,
+  ): Promise<Vehicle> {
+    return await prisma.vehicle.update({
+      where: { id: vehicleId },
+      data: {
+        customer: {
+          connect: {
+            id: customerId,
+          },
+        },
+      },
+    })
+  }
+
   async update(
     vehicleId: number,
     data: Prisma.VehicleUpdateInput,

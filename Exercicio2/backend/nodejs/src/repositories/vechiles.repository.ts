@@ -6,4 +6,5 @@ export interface VehiclesRepository {
   update(vehicleId: number, data: Prisma.VehicleUpdateInput): Promise<Vehicle>
   findById(id: number): Promise<Vehicle | null>
   findByPlate(plate: string): Promise<Vehicle | null>
+  findByCustomerCardId(cardId: string): Promise<Vehicle | null>
 }

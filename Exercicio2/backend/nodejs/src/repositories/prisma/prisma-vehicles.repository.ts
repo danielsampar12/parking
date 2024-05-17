@@ -41,4 +41,14 @@ export class PrismaVehiclesRepository implements VehiclesRepository {
       },
     })
   }
+
+  async findByCustomerCardId(cardId: string): Promise<Vehicle | null> {
+    return await prisma.vehicle.findFirst({
+      where: {
+        customer: {
+          cardId,
+        },
+      },
+    })
+  }
 }

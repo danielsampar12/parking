@@ -24,5 +24,6 @@ export async function connectVehicleToCustomerController(
     if (error instanceof CantConnectVehicleToCustomerError) {
       return reply.status(400).send({ message: error.message })
     }
+    throw error
   }
 }

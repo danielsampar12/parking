@@ -1,5 +1,5 @@
 export class PLanNotFoundError extends Error {
   constructor(id: number) {
-    super(`PLan with id: ${id} not found.`)
+    super(`Plan with id: ${id} not found.`)
   }
 }

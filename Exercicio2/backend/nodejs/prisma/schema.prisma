@@ -59,10 +59,10 @@ model CustomerPlan {
 }
 
 model Contract {
-  id           Int           @id @default(autoincrement())
-  description  String        @db.VarChar(50)
-  maxValue     Float?        @map("max_value")
-  ContractRule ContractRule?
+  id           Int            @id @default(autoincrement())
+  description  String         @db.VarChar(50)
+  maxValue     Float?         @map("max_value")
+  ContractRule ContractRule[]
 
   @@map("contracts")
 }
@@ -73,7 +73,7 @@ model ContractRule {
   value Float
 
   contract   Contract @relation(fields: [contractId], references: [id])
-  contractId Int      @unique @map("contract_id")
+  contractId Int      @map("contract_id")
 
   @@map("contract_rules")
 }

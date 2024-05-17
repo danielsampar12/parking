@@ -33,4 +33,12 @@ export class PrismaVehiclesRepository implements VehiclesRepository {
   async findById(id: number): Promise<Vehicle | null> {
     return await prisma.vehicle.findUnique({ where: { id } })
   }
+
+  async findByPlate(plate: string): Promise<Vehicle | null> {
+    return await prisma.vehicle.findUnique({
+      where: {
+        plate,
+      },
+    })
+  }
 }

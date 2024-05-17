@@ -5,4 +5,5 @@ export interface VehiclesRepository {
   connectToCustomer(customerId: number, vehicleId: number): Promise<Vehicle>
   update(vehicleId: number, data: Prisma.VehicleUpdateInput): Promise<Vehicle>
   findById(id: number): Promise<Vehicle | null>
+  findByPlate(plate: string): Promise<Vehicle | null>
 }

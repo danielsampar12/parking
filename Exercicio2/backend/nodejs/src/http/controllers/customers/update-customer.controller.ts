@@ -1,5 +1,5 @@
 import { CustomerNotFoundError } from '@/services/error/customer-not-found-error'
-import { makeUpdateCustomerService } from '@/services/factories/make-update-customer.service'
+import { makeUpdateCustomerService } from '@/factories/customers-services/make-update-customer.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 

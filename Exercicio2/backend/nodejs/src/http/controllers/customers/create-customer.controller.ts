@@ -1,4 +1,4 @@
-import { makeCreateCustomerService } from '@/services/factories/make-create-customer.service'
+import { makeCreateCustomerService } from '@/factories/customers-services/make-create-customer.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 

@@ -1,5 +1,4 @@
 import { ParkMovementsRepository } from '@/repositories/park-movements.repository'
-import { VehiclesRepository } from '@/repositories/vechiles.repository'
 import { ParkMovement } from '@prisma/client'
 import { ParkMovementeNotFoundError } from '../error/park-movement-not-found-error'
 
@@ -16,7 +15,6 @@ interface ExitCarResponse {
 export class ExitCarService {
   constructor(
     private readonly parkMovementsRepository: ParkMovementsRepository,
-    private readonly vehiclesRepository: VehiclesRepository,
   ) {}
 
   async execute({

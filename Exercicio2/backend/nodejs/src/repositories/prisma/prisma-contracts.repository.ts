@@ -1,6 +1,6 @@
 import { Contract, Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
-import { ContractsRepository } from '../contracts.repository'
+import { ContractWithRules, ContractsRepository } from '../contracts.repository'
 
 export class PrismaContractsRepository implements ContractsRepository {
   async create(data: Prisma.ContractCreateInput): Promise<Contract> {
@@ -11,8 +11,16 @@ export class PrismaContractsRepository implements ContractsRepository {
     return await prisma.contract.findUnique({ where: { id } })
   }
 
-  async findFirst(): Promise<Contract | null> {
-    return await prisma.contract.findFirst()
+  async getContract(): Promise<ContractWithRules | null> {
+    return await prisma.contract.findFirst({
+      include: {
+        ContractRule: {
+          orderBy: {
+            until: 'asc',
+          },
+        },
+      },
+    })
   }
 
   async update(

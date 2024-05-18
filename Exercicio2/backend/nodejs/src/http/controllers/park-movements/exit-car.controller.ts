@@ -1,3 +1,4 @@
+import { makeCalculateExitCarValueService } from '@/factories/park-movements-services/make-calculate-exit-car-service.factory'
 import { makeExitCarService } from '@/factories/park-movements-services/make-exit-car-service.factory'
 import { ParkMovementeNotFoundError } from '@/services/error/park-movement-not-found-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -16,11 +17,18 @@ export async function exitCarController(
   const body = exitCarBodySchema.parse(request.body)
 
   const exitCarService = makeExitCarService()
+  const calculerExitCarValueService = makeCalculateExitCarValueService()
 
   try {
     const { parkMovement } = await exitCarService.execute(body)
 
-    return reply.status(200).send(parkMovement)
+    const { value } = await calculerExitCarValueService.execute({
+      entryDate: parkMovement.entryDate,
+      exitDate: body.exitDate,
+      vehicleId: parkMovement.vehicleId,
+    })
+
+    return reply.status(200).send({ parkMovement, value })
   } catch (error) {
     if (error instanceof ParkMovementeNotFoundError) {
       return reply.status(400).send({ message: error.message })

@@ -20,4 +20,21 @@ export class PrismaCustomerRepository implements CustomersRepository {
   async findById(id: number) {
     return prisma.customer.findUnique({ where: { id } })
   }
+
+  async isMonthlyParker(vehicleId: number) {
+    const customer = await prisma.customer.findFirst({
+      where: {
+        Vehicle: {
+          some: { id: vehicleId },
+        },
+      },
+      include: {
+        CustomerPlan: {
+          select: { id: true },
+        },
+      },
+    })
+
+    return !!customer?.CustomerPlan?.id
+  }
 }

@@ -4,7 +4,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 const exitCarBodySchema = z.object({
-  exitDate: z.date(),
+  exitDate: z.coerce.date(),
   plate: z.string().max(10).optional(),
   cardId: z.string().max(10).optional(),
 })

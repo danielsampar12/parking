@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "seed": "tsx prisma/seed.ts",
+    "build": "tsup src/server.ts",
+    "build:run": "node dist/server.js",
     "start": "tsx src/server.ts",
     "start:dev": "tsx watch src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

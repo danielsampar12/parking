@@ -36,11 +36,11 @@ export function ParkMovementsTable({
     () => [
       {
         accessorKey: 'entryDate',
-        header: 'Entrada',
+        header: 'Hora entrada',
         cell: ({ row }) => (
           <Flex flexDir="column" justifyContent="flex-start" gap={1}>
             <Text fontWeight="bold">
-              {format(row.original.entryDate, 'dd/mm/yy HH:MM')}
+              {format(row.original.entryDate, 'dd/MM - HH:mm')}
             </Text>
           </Flex>
         ),

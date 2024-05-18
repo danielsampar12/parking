@@ -1,41 +1,148 @@
-// import { Pagination } from '@/components/Pagination'
+import { ExitCarModal } from '@/components/Modal/ExitCarModal'
 import { Pagination } from '@/components/Pagination'
 import { ParkMovementsTable } from '@/components/Tables/ParkMovementsTable'
+import { useMutationEntryCar } from '@/hooks/mutations/useMutationEntryCar'
+import { useMutationExitCar } from '@/hooks/mutations/useMutationExitCar'
 import { useQueryParked } from '@/hooks/queries/useQueryParked'
-import { Flex, Input } from '@chakra-ui/react'
-import { useState } from 'react'
+import { ExitCarResponse } from '@/services/parkmovements/exitCar'
+import { Button, Flex, Input, Select, Spinner } from '@chakra-ui/react'
+import { useMemo, useState } from 'react'
 
 export function DashboardSection() {
   const [plateOrCardId, setPlateOrCardId] = useState('')
+  const [entryInputType, setEntryInputType] = useState<'plate' | 'cardId'>(
+    'plate',
+  )
+  const [exitCarData, setExitCarData] = useState<ExitCarResponse | null>(null)
+  const [openExitCarModal, setOpenExitCarModal] = useState(false)
   const [page, setPage] = useState(1)
   const [take] = useState(10)
 
-  const { data, isError, isLoading } = useQueryParked({ page, take })
+  const { data, isLoading, isError } = useQueryParked({ page, take })
+
+  const { mutate: entryCar, isPending } = useMutationEntryCar()
+  const { mutateAsync: exitCar } = useMutationExitCar()
+
+  const isExitButton = useMemo(() => {
+    if (!data) return false
+
+    return !!data.find(
+      ({ vehicle }) =>
+        vehicle.plate === plateOrCardId.toUpperCase() ||
+        (!vehicle.customer
+          ? false
+          : vehicle.customer.cardId === plateOrCardId.toUpperCase()),
+    )
+  }, [data, plateOrCardId])
+
+  function handleSelectEntryInputType(value: string) {
+    if (value !== 'plate' && value !== 'cardId') {
+      throw new Error(
+        `Select is not setting entryInputType properly. ${value} is not assignable to 'plate' | 'cardId'`,
+      )
+    }
+
+    setEntryInputType(value)
+  }
+
+  function handleEntryCar() {
+    try {
+      if (entryInputType === 'plate') {
+        entryCar({ plate: plateOrCardId.toUpperCase() })
+      } else {
+        entryCar({ cardId: plateOrCardId.toUpperCase() })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function handleExitCar() {
+    try {
+      if (entryInputType === 'plate') {
+        const data = await exitCar({ plate: plateOrCardId.toUpperCase() })
+
+        setExitCarData(data)
+        setOpenExitCarModal(true)
+      } else {
+        const data = await exitCar({ cardId: plateOrCardId.toUpperCase() })
+
+        setExitCarData(data)
+        setOpenExitCarModal(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function onCloseExitCarModal() {
+    setExitCarData(null)
+    setOpenExitCarModal(false)
+  }
 
   return (
-    <Flex w="full" flex={1} flexDir="column" justify="flex-start" p={2}>
-      <Input
-        w="30%"
-        onChange={(e) => setPlateOrCardId(e.target.value)}
-        placeholder="Insira a placa ou cartão do cliente"
-      />
+    <>
+      {exitCarData ? (
+        <ExitCarModal
+          exitCarData={exitCarData}
+          isOpen={openExitCarModal}
+          onClose={onCloseExitCarModal}
+        />
+      ) : (
+        <></>
+      )}
+      <Flex w="full" flex={1} flexDir="column" justify="flex-start" p={2}>
+        <Flex flexDir="row" gap={2}>
+          <Select
+            defaultValue="plate"
+            size="md"
+            w="fit-content"
+            onChange={(e) => handleSelectEntryInputType(e.target.value)}
+          >
+            <option key="plate" value="plate">
+              PLACA
+            </option>
+            <option key="cardId" value="cardId">
+              CARTÃO
+            </option>
+          </Select>
+          <Input
+            w="30%"
+            onChange={(e) => setPlateOrCardId(e.target.value)}
+            placeholder={
+              entryInputType === 'plate'
+                ? 'Insira a placa do veículo'
+                : 'Insira o cartão do cliente'
+            }
+          />
+          {isExitButton ? (
+            <Button colorScheme="blue" onClick={handleExitCar}>
+              Dar saída
+            </Button>
+          ) : (
+            <Button colorScheme="blue" onClick={handleEntryCar}>
+              {isPending ? <Spinner color="white" /> : 'Dar entrada'}
+            </Button>
+          )}
+        </Flex>
 
-      <ParkMovementsTable
-        data={data ?? []}
-        isError={isError}
-        isLoading={isLoading}
-      />
+        <ParkMovementsTable
+          data={data ?? []}
+          isError={isError}
+          isLoading={isLoading}
+        />
 
-      <Pagination
-        currentPage={page}
-        isLastPage={!data || data.length < take}
-        onNext={() => setPage(page + 1)}
-        onPrevious={() => {
-          if (page > 1) {
-            setPage(page - 1)
-          }
-        }}
-      />
-    </Flex>
+        <Pagination
+          currentPage={page}
+          isLastPage={!data || data.length < take}
+          onNext={() => setPage(page + 1)}
+          onPrevious={() => {
+            if (page > 1) {
+              setPage(page - 1)
+            }
+          }}
+        />
+      </Flex>
+    </>
   )
 }

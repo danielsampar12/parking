@@ -1,8 +1,12 @@
 import { PaginationParams } from '@/types/pagination-params'
 import { ParkMovement, Prisma, Vehicle } from '@prisma/client'
 
-export type ParkMovementWithVehicle = ParkMovement & {
-  vehicle: Vehicle
+export type ParkMovementWithVehicleAndCardId = ParkMovement & {
+  vehicle: Vehicle & {
+    customer: {
+      cardId: string
+    } | null
+  }
 }
 
 export interface ParkMovementsRepository {
@@ -12,5 +16,7 @@ export interface ParkMovementsRepository {
     plate?: string,
     cardId?: string,
   ): Promise<ParkMovement | null>
-  findParked(pagination: PaginationParams): Promise<ParkMovementWithVehicle[]>
+  findParked(
+    pagination: PaginationParams,
+  ): Promise<ParkMovementWithVehicleAndCardId[]>
 }

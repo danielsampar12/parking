@@ -1,6 +1,6 @@
 import { ParkMovement, Prisma } from '@prisma/client'
 import {
-  ParkMovementWithVehicle,
+  ParkMovementWithVehicleAndCardId,
   ParkMovementsRepository,
 } from '../park-movements.repository'
 import { prisma } from '@/lib/prisma'
@@ -14,11 +14,23 @@ export class PrismaParkMovementsRepository implements ParkMovementsRepository {
   async findParked({
     page = 1,
     take,
-  }: PaginationParams): Promise<ParkMovementWithVehicle[]> {
+  }: PaginationParams): Promise<ParkMovementWithVehicleAndCardId[]> {
     return await prisma.parkMovement.findMany({
       where: { exitDate: null },
       include: {
-        vehicle: true,
+        vehicle: {
+          include: {
+            // Pelo ERD enviado o cardId pertence ao Customer...
+            // Me parece que ta errado, porque pelo enunciado da a entender que cardId é obrigatório
+            // porém alguns veículos não tem cliente vinculado.
+            // Como pede no enunciado: "Caso o veículo não esteja cadastrado na base de dados deverá cadastrar o mesmo sem vínculo com cliente, pois ele será um veículo rotativo."
+            customer: {
+              select: {
+                cardId: true,
+              },
+            },
+          },
+        },
       },
       skip: take ? (page - 1) * take : 0,
       take,

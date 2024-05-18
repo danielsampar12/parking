@@ -1,6 +1,10 @@
 import { PaginationParams } from '@/types/pagination-params'
 import { ParkMovement, Prisma, Vehicle } from '@prisma/client'
 
+export type ParkMovementWithVehicle = ParkMovement & {
+  vehicle: Vehicle
+}
+
 export type ParkMovementWithVehicleAndCardId = ParkMovement & {
   vehicle: Vehicle & {
     customer: {
@@ -11,7 +15,7 @@ export type ParkMovementWithVehicleAndCardId = ParkMovement & {
 
 export interface ParkMovementsRepository {
   create(data: Prisma.ParkMovementCreateInput): Promise<ParkMovement>
-  exitParkMoviment(id: number, exitDate: Date): Promise<ParkMovement>
+  exitParkMoviment(id: number, exitDate: Date): Promise<ParkMovementWithVehicle>
   findOpenedParkMovement(
     plate?: string,
     cardId?: string,

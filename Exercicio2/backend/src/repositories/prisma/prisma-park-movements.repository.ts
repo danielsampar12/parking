@@ -1,5 +1,6 @@
 import { ParkMovement, Prisma } from '@prisma/client'
 import {
+  ParkMovementWithVehicle,
   ParkMovementWithVehicleAndCardId,
   ParkMovementsRepository,
 } from '../park-movements.repository'
@@ -32,6 +33,9 @@ export class PrismaParkMovementsRepository implements ParkMovementsRepository {
           },
         },
       },
+      orderBy: {
+        entryDate: 'desc',
+      },
       skip: take ? (page - 1) * take : 0,
       take,
     })
@@ -63,13 +67,19 @@ export class PrismaParkMovementsRepository implements ParkMovementsRepository {
     })
   }
 
-  async exitParkMoviment(id: number, exitDate: Date): Promise<ParkMovement> {
+  async exitParkMoviment(
+    id: number,
+    exitDate: Date,
+  ): Promise<ParkMovementWithVehicle> {
     return await prisma.parkMovement.update({
       where: {
         id,
       },
       data: {
         exitDate,
+      },
+      include: {
+        vehicle: true,
       },
     })
   }

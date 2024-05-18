@@ -1,5 +1,7 @@
-import { ParkMovementsRepository } from '@/repositories/park-movements.repository'
-import { ParkMovement } from '@prisma/client'
+import {
+  ParkMovementWithVehicle,
+  ParkMovementsRepository,
+} from '@/repositories/park-movements.repository'
 import { ParkMovementeNotFoundError } from '../error/park-movement-not-found-error'
 
 interface ExitCarRequest {
@@ -9,7 +11,7 @@ interface ExitCarRequest {
 }
 
 interface ExitCarResponse {
-  parkMovement: ParkMovement
+  parkMovement: ParkMovementWithVehicle
 }
 
 export class ExitCarService {

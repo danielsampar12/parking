@@ -14,8 +14,14 @@ datasource db {
 }
 
 model Customer {
-  id           Int           @id @default(autoincrement())
-  name         String        @db.VarChar(50)
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(50)
+  // Pelo ERD enviado o cardId pertence ao Customer...
+  // Me parece que ta errado, porque pelo enunciado da a entender que cardId é obrigatório
+  // porém alguns veículos não tem cliente vinculado.
+  // Como pede no enunciado: "Caso o veículo não esteja cadastrado na base de dados deverá cadastrar o mesmo sem vínculo com cliente, pois ele será um veículo rotativo."
+
+  // DECIDI SEGUIR O ERD
   cardId       String        @map("card_id") @db.VarChar(10)
   Vehicle      Vehicle[]
   CustomerPlan CustomerPlan?

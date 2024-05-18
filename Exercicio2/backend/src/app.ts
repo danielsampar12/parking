@@ -1,4 +1,5 @@
 import fastify from 'fastify'
+import fastifyCors from '@fastify/cors'
 
 import { customerRoutes } from './http/routes/customers.routes'
 import { planRoutes } from './http/routes/plans.routes'
@@ -9,6 +10,8 @@ import { customerPlansRoutes } from './http/routes/customer-plan.routes'
 import { parkMovementRoutes } from './http/routes/park-movement.routes'
 
 export const app = fastify()
+
+app.register(fastifyCors)
 
 app.register(planRoutes, { prefix: 'api/v1' })
 app.register(vehicleRoutes, { prefix: 'api/v1' })

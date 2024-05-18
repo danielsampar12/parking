@@ -33,6 +33,7 @@ export class EntryCarService {
       throw new OpendParkMovementError({ plate, cardId })
     }
 
+    // if you have plate you can just create or connect the vehicle to the new parkMovement
     if (plate) {
       const parkMovement = await this.parkMovementsRepository.create({
         entryDate,
@@ -47,6 +48,7 @@ export class EntryCarService {
       return { parkMovement }
     }
 
+    // but if you don't have plate, you can't create a vehicle, just connect it (if it exists, of course)
     if (cardId) {
       const vehicle = await this.vehiclesRepository.findByCustomerCardId(cardId)
 

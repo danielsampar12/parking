@@ -13,8 +13,7 @@ export class CantCreateCustomerPlanError extends Error {
     planExists,
   }: CantCreateCustomerPlanErrorInput) {
     super(
-      `Can't create customer plan one or both of customer and plan do not exists.
-Plan: {planId: ${planId}, exists: ${planExists}} Customer: {customerId: ${customerId}, exists: ${customerExists}}`,
+      `Can't create customer plan one or both of customer and plan do not exists. Because -> Plan: {planId: ${planId}, exists: ${planExists}}, Customer: {customerId: ${customerId}, exists: ${customerExists}}`,
     )
   }
 }

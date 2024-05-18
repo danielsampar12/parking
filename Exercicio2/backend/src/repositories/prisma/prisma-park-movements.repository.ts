@@ -1,10 +1,28 @@
 import { ParkMovement, Prisma } from '@prisma/client'
-import { ParkMovementsRepository } from '../park-movements.repository'
+import {
+  ParkMovementWithVehicle,
+  ParkMovementsRepository,
+} from '../park-movements.repository'
 import { prisma } from '@/lib/prisma'
+import { PaginationParams } from '@/types/pagination-params'
 
 export class PrismaParkMovementsRepository implements ParkMovementsRepository {
   async create(data: Prisma.ParkMovementCreateInput): Promise<ParkMovement> {
     return await prisma.parkMovement.create({ data })
+  }
+
+  async findParked({
+    page = 1,
+    take,
+  }: PaginationParams): Promise<ParkMovementWithVehicle[]> {
+    return await prisma.parkMovement.findMany({
+      where: { exitDate: null },
+      include: {
+        vehicle: true,
+      },
+      skip: take ? (page - 1) * take : 0,
+      take,
+    })
   }
 
   async findOpenedParkMovement(plate?: string, cardId?: string) {

@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify'
-import { createCustomerController } from '../controllers/customers/create-customer.controller'
+import { createCustomerPlanController } from '../controllers/customer-plan/create-customer-plan.controller'
 
 export async function customerPlansRoutes(app: FastifyInstance) {
-  app.post('/customerplan', createCustomerController)
+  app.post('/customerplan', createCustomerPlanController)
 }

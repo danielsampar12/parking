@@ -1,6 +1,7 @@
 import { Prisma, Vehicle } from '@prisma/client'
 import { VehiclesRepository } from '../vechiles.repository'
 import { prisma } from '@/lib/prisma'
+import { PaginationParams } from '@/types/pagination-params'
 
 export class PrismaVehiclesRepository implements VehiclesRepository {
   async create(data: Prisma.VehicleCreateInput): Promise<Vehicle> {
@@ -49,6 +50,13 @@ export class PrismaVehiclesRepository implements VehiclesRepository {
           cardId,
         },
       },
+    })
+  }
+
+  async findAll({ page = 1, take }: PaginationParams): Promise<Vehicle[]> {
+    return await prisma.vehicle.findMany({
+      skip: take ? (page - 1) * take : 0,
+      take,
     })
   }
 }

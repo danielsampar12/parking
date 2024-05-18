@@ -1,3 +1,4 @@
+import { PaginationParams } from '@/types/pagination-params'
 import { Prisma, Vehicle } from '@prisma/client'
 
 export interface VehiclesRepository {
@@ -7,4 +8,5 @@ export interface VehiclesRepository {
   findById(id: number): Promise<Vehicle | null>
   findByPlate(plate: string): Promise<Vehicle | null>
   findByCustomerCardId(cardId: string): Promise<Vehicle | null>
+  findAll(paginatinon: PaginationParams): Promise<Vehicle[]>
 }

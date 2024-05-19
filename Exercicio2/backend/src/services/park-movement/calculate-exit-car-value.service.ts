@@ -55,6 +55,10 @@ export class CalculateExitCarValueService {
       }
     }
 
+    if (contract.maxValue && value > contract.maxValue) {
+      return { value: contract.maxValue }
+    }
+
     return { value }
   }
 }

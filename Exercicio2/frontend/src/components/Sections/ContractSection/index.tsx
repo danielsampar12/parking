@@ -3,7 +3,6 @@ import { useMutationUpdateContract } from '@/hooks/mutations/useMutationUpdateCo
 import { useQueryContract } from '@/hooks/queries/useQueryContract'
 import {
   UpdateContractFormSchema,
-  updateContractBodySchema,
   updateContractFormSchema,
 } from '@/lib/zod/contracts/updateContractSchema'
 import { ContractRule } from '@/types/serverTypes/Contract'
@@ -27,7 +26,6 @@ import {
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { IoRemove } from 'react-icons/io5'
 import { MdEdit } from 'react-icons/md'
 
 export function ContractSection() {
@@ -48,27 +46,23 @@ export function ContractSection() {
   const { register, handleSubmit } = useForm<UpdateContractFormSchema>()
 
   async function handleUpdateContract(contractInfo: UpdateContractFormSchema) {
-    try {
-      if (!data) return
+    if (!data) return
 
-      const { description, maxValue } =
-        updateContractFormSchema.parse(contractInfo)
+    const { description, maxValue } =
+      updateContractFormSchema.parse(contractInfo)
 
-      const updatedContractRules = contractRules.flatMap(({ id }) =>
-        id ? { id } : [],
-      )
+    const updatedContractRules = contractRules.flatMap(({ id }) =>
+      id ? { id } : [],
+    )
 
-      await updateContract({
-        contractId: data.id,
-        data: {
-          description: description ?? data.description,
-          maxValue,
-          contractRules: updatedContractRules,
-        },
-      })
-    } catch (error) {
-      console.log(error.flatten())
-    }
+    await updateContract({
+      contractId: data.id,
+      data: {
+        description: description ?? data.description,
+        maxValue,
+        contractRules: updatedContractRules,
+      },
+    })
   }
 
   useEffect(() => {

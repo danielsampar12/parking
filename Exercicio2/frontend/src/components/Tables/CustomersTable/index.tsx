@@ -22,10 +22,11 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Customer } from '@/types/serverTypes/Customer'
 import { MdEdit } from 'react-icons/md'
+import { UpdateCustomerModal } from '@/components/Modal/UpdateCustomerModal'
 
 interface CustomersTableProps {
   data: Customer[]
@@ -38,6 +39,9 @@ export function CustomersTable({
   isError,
   isLoading,
 }: CustomersTableProps) {
+  const [updateCustomer, setUpdateCustomer] = useState<Customer | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
+
   const columns: ColumnDef<Customer>[] = useMemo(
     () => [
       {
@@ -73,7 +77,10 @@ export function CustomersTable({
                 colorScheme="gray"
                 w="fit-content"
                 icon={<MdEdit />}
-                onClick={() => console.log('TODO')}
+                onClick={() => {
+                  setUpdateCustomer(row.original)
+                  setIsOpen(true)
+                }}
               />
             </Tooltip>
           </Flex>
@@ -90,6 +97,11 @@ export function CustomersTable({
   })
 
   const headerGroups = table.getHeaderGroups()
+
+  function handleCloseEditCustomer() {
+    setUpdateCustomer(null)
+    setIsOpen(false)
+  }
 
   if (isLoading) {
     return (
@@ -124,32 +136,43 @@ export function CustomersTable({
     )
   }
   return (
-    <TableContainer w="full" h="full" pt="20px">
-      <Table variant="simple">
-        <Thead>
-          {headerGroups.map((headerGroup) => (
-            <Tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <Th className="th" key={header.id}>
-                  {/* {header.column.columnDef.header} */}
-                  {header.column.columnDef.header?.toString()}
-                </Th>
-              ))}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody>
-          {table.getRowModel().rows.map((row) => (
-            <Tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <Td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </Td>
-              ))}
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <>
+      {updateCustomer ? (
+        <UpdateCustomerModal
+          isOpen={isOpen}
+          onClose={handleCloseEditCustomer}
+          customer={updateCustomer}
+        />
+      ) : (
+        <></>
+      )}
+      <TableContainer w="full" h="full" pt="20px">
+        <Table variant="simple">
+          <Thead>
+            {headerGroups.map((headerGroup) => (
+              <Tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Th className="th" key={header.id}>
+                    {/* {header.column.columnDef.header} */}
+                    {header.column.columnDef.header?.toString()}
+                  </Th>
+                ))}
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody>
+            {table.getRowModel().rows.map((row) => (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </>
   )
 }

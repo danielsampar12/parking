@@ -22,7 +22,7 @@ export class CreateContractService {
   async execute(req: CreateContractRequest): Promise<CreateContractResponse> {
     const contractAlreadyExists = await this.contractsRepository.getContract()
 
-    if (!contractAlreadyExists) {
+    if (contractAlreadyExists) {
       throw new ContractAlreadyExistsError()
     }
 

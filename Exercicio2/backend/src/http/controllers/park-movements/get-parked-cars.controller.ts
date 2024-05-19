@@ -6,7 +6,9 @@ export async function getParkedCarsController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const params = paginationSchema.parse(request.params)
+  const params = paginationSchema.parse(
+    JSON.parse(JSON.stringify(request.query)),
+  )
 
   const getParkedCarsService = makeGetParkedCarsService()
 

@@ -57,6 +57,9 @@ export class PrismaVehiclesRepository implements VehiclesRepository {
     return await prisma.vehicle.findMany({
       skip: take ? (page - 1) * take : 0,
       take,
+      orderBy: {
+        id: 'desc',
+      },
     })
   }
 }

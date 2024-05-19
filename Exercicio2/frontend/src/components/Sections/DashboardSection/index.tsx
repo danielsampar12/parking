@@ -94,7 +94,7 @@ export function DashboardSection() {
       ) : (
         <></>
       )}
-      <Flex w="full" flex={1} flexDir="column" justify="flex-start" p={2}>
+      <Flex w="full" flex={1} flexDir="column" justify="flex-start">
         <Flex flexDir={breakpoint !== 'sm' ? 'row' : 'column'} gap={2}>
           <Select
             defaultValue="plate"

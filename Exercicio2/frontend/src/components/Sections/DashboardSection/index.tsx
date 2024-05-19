@@ -24,7 +24,7 @@ export function DashboardSection() {
   const [exitCarData, setExitCarData] = useState<ExitCarResponse | null>(null)
   const [openExitCarModal, setOpenExitCarModal] = useState(false)
   const [page, setPage] = useState(1)
-  const [take] = useState(10)
+  const [take] = useState(11)
 
   const breakpoint = useBreakpoint()
 
@@ -94,7 +94,7 @@ export function DashboardSection() {
       ) : (
         <></>
       )}
-      <Flex w="full" flex={1} flexDir="column" justify="flex-start">
+      <Flex w="full" flex={1} flexDir="column" justify="flex-start" p={2}>
         <Flex flexDir={breakpoint !== 'sm' ? 'row' : 'column'} gap={2}>
           <Select
             defaultValue="plate"

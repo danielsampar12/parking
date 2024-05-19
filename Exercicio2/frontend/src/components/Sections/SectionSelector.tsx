@@ -2,6 +2,7 @@ import { DashboardSections } from '@/constants/dashboardSections'
 import { Text } from '@chakra-ui/react'
 import { DashboardSection } from './DashboardSection'
 import { VehiclesSection } from './VehiclesSection'
+import { CustomersSection } from './CustomersSection'
 
 interface SectionSelectorProps {
   path: DashboardSections
@@ -13,6 +14,8 @@ export function SectionSelector({ path }: SectionSelectorProps) {
       return <DashboardSection />
     case 'vehicles':
       return <VehiclesSection />
+    case 'customer':
+      return <CustomersSection />
     default:
       return (
         <Text fontSize={80} color="gray.300">

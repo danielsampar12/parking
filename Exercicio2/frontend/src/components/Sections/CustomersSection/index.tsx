@@ -1,38 +1,38 @@
-import { CreateVehicleModal } from '@/components/Modal/CreateVehicleModal'
+import { CreateCustomerModal } from '@/components/Modal/CreateCustomerModal'
 import { Pagination } from '@/components/Pagination'
-import { VehiclesTable } from '@/components/Tables/VehiclesTable'
-import { useQueryVehicles } from '@/hooks/queries/useQueryVehicles'
+import { CustomersTable } from '@/components/Tables/CustomersTable'
+import { useQueryCustomers } from '@/hooks/queries/useQueryCustomers'
 import { Flex, Heading, IconButton } from '@chakra-ui/react'
 import { useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
 
-export function VehiclesSection() {
+export function CustomersSection() {
   const [page, setPage] = useState(1)
   const take = 8
 
-  const [isCreateVehicleModalOpen, setIsCreateVehicleModalOpen] =
+  const [isCreateCustomerModalOpen, setIsCreateCustomerModalOpen] =
     useState(false)
 
-  const { data, isError, isLoading } = useQueryVehicles({ page, take })
+  const { data, isError, isLoading } = useQueryCustomers({ page, take })
 
   return (
     <>
-      <CreateVehicleModal
-        isOpen={isCreateVehicleModalOpen}
-        onClose={() => setIsCreateVehicleModalOpen(false)}
+      <CreateCustomerModal
+        isOpen={isCreateCustomerModalOpen}
+        onClose={() => setIsCreateCustomerModalOpen(false)}
       />
 
       <Flex w="full" flex={1} flexDir="column" justify="flex-start">
         <Flex w="full" flexDir="row" justify="space-between">
-          <Heading size="xl">Veículos</Heading>
+          <Heading size="xl">Clientes</Heading>
           <IconButton
             aria-label="Add vehicle"
             icon={<IoMdAdd />}
-            onClick={() => setIsCreateVehicleModalOpen(true)}
+            onClick={() => setIsCreateCustomerModalOpen(true)}
           />
         </Flex>
 
-        <VehiclesTable
+        <CustomersTable
           data={data ?? []}
           isError={isError}
           isLoading={isLoading}

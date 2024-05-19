@@ -4,4 +4,5 @@ export const QUERY_KEY = {
   customers: 'customers',
   vehicles: 'vehicles',
   isParked: 'isParked',
+  contract: 'contract',
 }

@@ -4,6 +4,7 @@ import { DashboardSection } from './DashboardSection'
 import { VehiclesSection } from './VehiclesSection'
 import { CustomersSection } from './CustomersSection'
 import { PlansSection } from './PlansSection'
+import { ContractSection } from './ContractSection'
 
 interface SectionSelectorProps {
   path: DashboardSections
@@ -19,6 +20,8 @@ export function SectionSelector({ path }: SectionSelectorProps) {
       return <CustomersSection />
     case 'plans':
       return <PlansSection />
+    case 'contract':
+      return <ContractSection />
     default:
       return (
         <Text fontSize={80} color="gray.300">

@@ -76,8 +76,6 @@ export function CreateContractModal({ isOpen, onClose }: DefaultModalProps) {
   }
 
   function handleAddRule() {
-    console.log(newRule)
-
     if (newRule.until === 0 || newRule.value === '') return
 
     const parsedRule: ContractRule = {

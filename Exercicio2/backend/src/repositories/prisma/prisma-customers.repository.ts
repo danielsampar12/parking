@@ -1,6 +1,7 @@
 import { Prisma, Customer } from '@prisma/client'
 import { CustomersRepository } from '../customers.repository'
 import { prisma } from '@/lib/prisma'
+import { PaginationParams } from '@/types/pagination-params'
 
 export class PrismaCustomerRepository implements CustomersRepository {
   async update(
@@ -36,5 +37,15 @@ export class PrismaCustomerRepository implements CustomersRepository {
     })
 
     return !!customer?.CustomerPlan?.id
+  }
+
+  async findAll({ page = 1, take }: PaginationParams): Promise<Customer[]> {
+    return await prisma.customer.findMany({
+      skip: take ? (page - 1) * take : 0,
+      take,
+      orderBy: {
+        id: 'desc',
+      },
+    })
   }
 }

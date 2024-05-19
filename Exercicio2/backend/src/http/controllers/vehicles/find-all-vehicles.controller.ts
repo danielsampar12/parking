@@ -6,9 +6,9 @@ export async function findAllVehiclesController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const params = paginationSchema.parse(request.params)
-
-  console.log({ req: request.params })
+  const params = paginationSchema.parse(
+    JSON.parse(JSON.stringify(request.query)),
+  )
 
   const findAllVehiclesService = makeFindAllVehiclesService()
 

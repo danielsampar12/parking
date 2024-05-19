@@ -9,8 +9,6 @@ export function VehiclesSection() {
   const take = 10
   const { data, isError, isLoading } = useQueryVehicles({ page, take })
 
-  console.log(data)
-
   return (
     <Flex w="full" flex={1} flexDir="column" justify="flex-start" p={2}>
       <VehiclesTable

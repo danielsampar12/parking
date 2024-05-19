@@ -11,6 +11,7 @@ import {
   Thead,
   Tooltip,
   Tr,
+  useBreakpoint,
 } from '@chakra-ui/react'
 import {
   ColumnDef,
@@ -34,61 +35,110 @@ export function VehiclesTable({
   isError,
   isLoading,
 }: VehiclesTableProps) {
+  const breakpoint = useBreakpoint()
+
   const columns: ColumnDef<Vehicle>[] = useMemo(
-    () => [
-      {
-        accessorKey: 'plate',
-        header: 'Placa',
-        cell: ({ row }) => (
-          <Flex flexDir="column" justifyContent="flex-start" gap={1}>
-            <Text fontWeight="bold">{row.original.plate}</Text>
-          </Flex>
-        ),
-      },
-      {
-        accessorKey: 'description',
-        header: 'Descrição',
-        cell: ({ row }) => (
-          <Flex flexDir="column" justifyContent="flex-start" gap={1}>
-            <Text fontWeight="bold">
-              {row.original.description ?? 'SEM DESCRIÇÃO'}
-            </Text>
-          </Flex>
-        ),
-      },
-      {
-        accessorKey: 'model',
-        header: 'Modelo',
-        cell: ({ row }) => (
-          <Flex flexDir="column" justifyContent="flex-start" gap={1}>
-            <Text fontWeight="bold">
-              {row.original.model ?? 'MODEL DESCONHECIDO'}
-            </Text>
-          </Flex>
-        ),
-      },
-      {
-        accessorKey: 'edit',
-        header: 'Editar',
-        cell: ({ row }) => (
-          <Flex flexDir="column" justifyContent="center">
-            <Tooltip
-              label={`Editar veículo ${row.original.plate}`}
-              key={`vehicle-${row.original.id}`}
-              bg="brand.blue"
-            >
-              <IconButton
-                aria-label="edit vehicle"
-                colorScheme="grey"
-                icon={<MdEdit />}
-                onClick={() => console.log('TODO')}
-              />
-            </Tooltip>
-          </Flex>
-        ),
-      },
-    ],
-    [],
+    () =>
+      breakpoint !== 'sm' && breakpoint !== 'md'
+        ? [
+            {
+              accessorKey: 'plate',
+              header: 'Placa',
+              cell: ({ row }) => (
+                <Flex flexDir="column" justifyContent="flex-start" gap={1}>
+                  <Text fontWeight="bold">{row.original.plate}</Text>
+                </Flex>
+              ),
+            },
+            {
+              accessorKey: 'description',
+              header: 'Descrição',
+              cell: ({ row }) => (
+                <Flex flexDir="column" justifyContent="flex-start" gap={1}>
+                  <Text fontWeight="bold">
+                    {row.original.description ?? 'SEM DESCRIÇÃO'}
+                  </Text>
+                </Flex>
+              ),
+            },
+            {
+              accessorKey: 'model',
+              header: 'Modelo',
+              cell: ({ row }) => (
+                <Flex flexDir="column" justifyContent="flex-start" gap={1}>
+                  <Text fontWeight="bold">
+                    {row.original.model ?? 'MODEL DESCONHECIDO'}
+                  </Text>
+                </Flex>
+              ),
+            },
+            {
+              accessorKey: 'edit',
+              header: 'Editar',
+              cell: ({ row }) => (
+                <Flex flexDir="column" justifyContent="center">
+                  <Tooltip
+                    label={`Editar veículo ${row.original.plate}`}
+                    key={`vehicle-${row.original.id}`}
+                    bg="brand.blue"
+                  >
+                    <IconButton
+                      aria-label="edit vehicle"
+                      colorScheme="gray"
+                      w="fit-content"
+                      icon={<MdEdit />}
+                      onClick={() => console.log('TODO')}
+                    />
+                  </Tooltip>
+                </Flex>
+              ),
+            },
+          ]
+        : [
+            {
+              accessorKey: 'plate',
+              header: 'Placa',
+              cell: ({ row }) => (
+                <Flex flexDir="column" justifyContent="flex-start" gap={1}>
+                  <Text fontWeight="bold">{row.original.plate}</Text>
+                </Flex>
+              ),
+            },
+
+            {
+              accessorKey: 'model',
+              header: 'Modelo',
+              cell: ({ row }) => (
+                <Flex flexDir="column" justifyContent="flex-start" gap={1}>
+                  <Text fontWeight="bold">
+                    {row.original.model ?? 'MODEL DESCONHECIDO'}
+                  </Text>
+                </Flex>
+              ),
+            },
+            {
+              accessorKey: 'edit',
+              header: 'Editar',
+              cell: ({ row }) => (
+                <Flex flexDir="column" justifyContent="center">
+                  <Tooltip
+                    label={`Editar veículo ${row.original.plate}`}
+                    key={`vehicle-${row.original.id}`}
+                    bg="brand.blue"
+                  >
+                    <IconButton
+                      aria-label="edit vehicle"
+                      colorScheme="gray"
+                      w="fit-content"
+                      icon={<MdEdit />}
+                      onClick={() => console.log('TODO')}
+                    />
+                  </Tooltip>
+                </Flex>
+              ),
+            },
+          ],
+    [breakpoint],
   )
 
   const table = useReactTable({

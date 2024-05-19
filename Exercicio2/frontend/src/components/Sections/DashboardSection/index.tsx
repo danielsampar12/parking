@@ -5,7 +5,14 @@ import { useMutationEntryCar } from '@/hooks/mutations/useMutationEntryCar'
 import { useMutationExitCar } from '@/hooks/mutations/useMutationExitCar'
 import { useQueryParked } from '@/hooks/queries/useQueryParked'
 import { ExitCarResponse } from '@/services/parkmovements/exitCar'
-import { Button, Flex, Input, Select, Spinner } from '@chakra-ui/react'
+import {
+  Button,
+  Flex,
+  Input,
+  Select,
+  Spinner,
+  useBreakpoint,
+} from '@chakra-ui/react'
 import { useMemo, useState } from 'react'
 
 export function DashboardSection() {
@@ -17,6 +24,8 @@ export function DashboardSection() {
   const [openExitCarModal, setOpenExitCarModal] = useState(false)
   const [page, setPage] = useState(1)
   const [take] = useState(10)
+
+  const breakpoint = useBreakpoint()
 
   const { data, isLoading, isError } = useQueryParked({ page, take })
 
@@ -92,7 +101,7 @@ export function DashboardSection() {
         <></>
       )}
       <Flex w="full" flex={1} flexDir="column" justify="flex-start" p={2}>
-        <Flex flexDir="row" gap={2}>
+        <Flex flexDir={breakpoint !== 'sm' ? 'row' : 'column'} gap={2}>
           <Select
             defaultValue="plate"
             size="md"
@@ -107,7 +116,7 @@ export function DashboardSection() {
             </option>
           </Select>
           <Input
-            w="30%"
+            w={breakpoint !== 'sm' ? '30%' : 'full'}
             onChange={(e) => setPlateOrCardId(e.target.value)}
             placeholder={
               entryInputType === 'plate'

@@ -22,11 +22,12 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Plan } from '@/types/serverTypes/Plan'
 import { MdEdit } from 'react-icons/md'
 import { formatFloatToBRL } from '@/utils/formatFloatToBRL'
+import { UpdatePlanModal } from '@/components/Modal/UpdatePlanModal'
 
 interface PlansTableProps {
   data: Plan[]
@@ -35,6 +36,14 @@ interface PlansTableProps {
 }
 
 export function PlansTable({ data, isError, isLoading }: PlansTableProps) {
+  const [updatePlan, setUpdatePlan] = useState<Plan | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
+
+  function handleCloseEditPlan() {
+    setIsOpen(false)
+    setUpdatePlan(null)
+  }
+
   const columns: ColumnDef<Plan>[] = useMemo(
     () => [
       {
@@ -72,7 +81,10 @@ export function PlansTable({ data, isError, isLoading }: PlansTableProps) {
                 colorScheme="gray"
                 w="fit-content"
                 icon={<MdEdit />}
-                onClick={() => console.log('TODO')}
+                onClick={() => {
+                  setUpdatePlan(row.original)
+                  setIsOpen(true)
+                }}
               />
             </Tooltip>
           </Flex>
@@ -124,32 +136,43 @@ export function PlansTable({ data, isError, isLoading }: PlansTableProps) {
   }
 
   return (
-    <TableContainer w="full" h="full" pt="20px">
-      <Table variant="simple">
-        <Thead>
-          {headerGroups.map((headerGroup) => (
-            <Tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <Th className="th" key={header.id}>
-                  {/* {header.column.columnDef.header} */}
-                  {header.column.columnDef.header?.toString()}
-                </Th>
-              ))}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody>
-          {table.getRowModel().rows.map((row) => (
-            <Tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <Td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </Td>
-              ))}
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <>
+      {updatePlan ? (
+        <UpdatePlanModal
+          isOpen={isOpen}
+          onClose={handleCloseEditPlan}
+          plan={updatePlan}
+        />
+      ) : (
+        <></>
+      )}
+      <TableContainer w="full" h="full" pt="20px">
+        <Table variant="simple">
+          <Thead>
+            {headerGroups.map((headerGroup) => (
+              <Tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Th className="th" key={header.id}>
+                    {/* {header.column.columnDef.header} */}
+                    {header.column.columnDef.header?.toString()}
+                  </Th>
+                ))}
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody>
+            {table.getRowModel().rows.map((row) => (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </>
   )
 }

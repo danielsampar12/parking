@@ -1,3 +1,4 @@
+import { CreateContractModal } from '@/components/Modal/CreateContractModal'
 import { useQueryContract } from '@/hooks/queries/useQueryContract'
 import {
   Alert,
@@ -8,8 +9,12 @@ import {
   Flex,
   Spinner,
 } from '@chakra-ui/react'
+import { useState } from 'react'
 
 export function ContractSection() {
+  const [isCreateContractModalOpen, setIsCreateContractModalOpen] =
+    useState(false)
+
   const { data, isError, isLoading } = useQueryContract()
 
   if (isLoading) {
@@ -53,8 +58,19 @@ export function ContractSection() {
     )
   }
   return (
-    <Flex flex={1} w="full" alignItems="center" justifyContent="center">
-      <Button colorScheme="blue">Criar contrato</Button>
-    </Flex>
+    <>
+      <CreateContractModal
+        isOpen={isCreateContractModalOpen}
+        onClose={() => setIsCreateContractModalOpen(false)}
+      />
+      <Flex flex={1} w="full" alignItems="center" justifyContent="center">
+        <Button
+          colorScheme="blue"
+          onClick={() => setIsCreateContractModalOpen(true)}
+        >
+          Criar contrato
+        </Button>
+      </Flex>
+    </>
   )
 }

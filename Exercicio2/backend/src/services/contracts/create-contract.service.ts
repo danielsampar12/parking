@@ -19,7 +19,11 @@ interface CreateContractResponse {
 export class CreateContractService {
   constructor(private readonly contractsRepository: ContractsRepository) {}
 
-  async execute(req: CreateContractRequest): Promise<CreateContractResponse> {
+  async execute({
+    contractRules,
+    description,
+    maxValue,
+  }: CreateContractRequest): Promise<CreateContractResponse> {
     const contractAlreadyExists = await this.contractsRepository.getContract()
 
     if (contractAlreadyExists) {
@@ -27,10 +31,11 @@ export class CreateContractService {
     }
 
     const data: Prisma.ContractCreateInput = {
-      ...req,
+      description,
+      maxValue,
       ContractRule: {
         createMany: {
-          data: req.contractRules.map((data) => data),
+          data: contractRules.map((data) => data),
         },
       },
     }

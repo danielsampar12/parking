@@ -1,5 +1,5 @@
 import { api } from '@/lib/axios'
-import { CreateVehicleBodySchema } from '@/lib/zod/createVehicleSchema'
+import { CreateVehicleBodySchema } from '@/lib/zod/vehicles/createVehicleSchema'
 import { Vehicle } from '@/types/serverTypes/Vehicle'
 
 export async function createVehicle(body: CreateVehicleBodySchema) {

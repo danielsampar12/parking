@@ -8,6 +8,8 @@ export async function findAllVehiclesController(
 ) {
   const params = paginationSchema.parse(request.params)
 
+  console.log({ req: request.params })
+
   const findAllVehiclesService = makeFindAllVehiclesService()
 
   const { vehicles } = await findAllVehiclesService.execute(params)

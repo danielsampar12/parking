@@ -4,7 +4,23 @@ import { exitCarController } from '../controllers/park-movements/exit-car.contro
 import { getParkedCarsController } from '../controllers/park-movements/get-parked-cars.controller'
 
 export async function parkMovementRoutes(app: FastifyInstance) {
-  app.get('/parkmovement', getParkedCarsController)
+  app.get(
+    '/parkmovement',
+    {
+      schema: {
+        querystring: {
+          querystring: {
+            type: 'object',
+            properties: {
+              page: { type: 'number' },
+              take: { type: 'number' },
+            },
+          },
+        },
+      },
+    },
+    getParkedCarsController,
+  )
   app.post('/parkmovement', entryCarController)
   app.put('/parkmovement', exitCarController)
 }

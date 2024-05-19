@@ -1,5 +1,6 @@
 import {
   Flex,
+  IconButton,
   Spinner,
   Table,
   TableContainer,
@@ -8,6 +9,7 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from '@chakra-ui/react'
 import {
@@ -18,56 +20,70 @@ import {
 } from '@tanstack/react-table'
 import { useMemo } from 'react'
 
-import { ParkMovementWithVehicleAndCardId } from '@/types/serverTypes/ParkMovement'
-import { format } from 'date-fns'
+import { Vehicle } from '@/types/serverTypes/Vehicle'
+import { MdEdit } from 'react-icons/md'
 
-interface ParkMovemntTableProps {
-  data: ParkMovementWithVehicleAndCardId[]
+interface VehiclesTableProps {
+  data: Vehicle[]
   isLoading?: boolean
   isError?: boolean
 }
 
-export function ParkMovementsTable({
+export function VehiclesTable({
   data,
   isError,
   isLoading,
-}: ParkMovemntTableProps) {
-  const columns: ColumnDef<ParkMovementWithVehicleAndCardId>[] = useMemo(
+}: VehiclesTableProps) {
+  const columns: ColumnDef<Vehicle>[] = useMemo(
     () => [
       {
-        accessorKey: 'entryDate',
-        header: 'Hora entrada',
-        cell: ({ row }) => (
-          <Flex flexDir="column" justifyContent="flex-start" gap={1}>
-            <Text fontWeight="bold">
-              {format(row.original.entryDate, 'dd/MM - HH:mm')}
-            </Text>
-          </Flex>
-        ),
-      },
-      {
-        accessorKey: 'vehicle.plate',
+        accessorKey: 'plate',
         header: 'Placa',
         cell: ({ row }) => (
           <Flex flexDir="column" justifyContent="flex-start" gap={1}>
-            <Text fontWeight="bold">{row.original.vehicle.plate}</Text>
+            <Text fontWeight="bold">{row.original.plate}</Text>
           </Flex>
         ),
       },
       {
-        accessorKey: 'vehicle.customer.cardId',
-        // Pelo ERD enviado o cardId pertence ao Customer...
-        // Me parece que ta errado, porque pelo enunciado da a entender que cardId é obrigatório
-        // porém alguns veículos não tem cliente vinculado.
-        // Como pede no enunciado: "Caso o veículo não esteja cadastrado na base de dados deverá cadastrar o mesmo sem vínculo com cliente, pois ele será um veículo rotativo."
-        header: 'Cartão do cliente',
+        accessorKey: 'description',
+        header: 'Descrição',
         cell: ({ row }) => (
           <Flex flexDir="column" justifyContent="flex-start" gap={1}>
             <Text fontWeight="bold">
-              {row.original.vehicle.customer
-                ? row.original.vehicle.customer.cardId
-                : 'SEM CLIENTE'}
+              {row.original.description ?? 'SEM DESCRIÇÃO'}
             </Text>
+          </Flex>
+        ),
+      },
+      {
+        accessorKey: 'model',
+        header: 'Modelo',
+        cell: ({ row }) => (
+          <Flex flexDir="column" justifyContent="flex-start" gap={1}>
+            <Text fontWeight="bold">
+              {row.original.model ?? 'MODEL DESCONHECIDO'}
+            </Text>
+          </Flex>
+        ),
+      },
+      {
+        accessorKey: 'edit',
+        header: 'Editar',
+        cell: ({ row }) => (
+          <Flex flexDir="column" justifyContent="center">
+            <Tooltip
+              label={`Editar veículo ${row.original.plate}`}
+              key={`vehicle-${row.original.id}`}
+              bg="brand.blue"
+            >
+              <IconButton
+                aria-label="edit vehicle"
+                colorScheme="grey"
+                icon={<MdEdit />}
+                onClick={() => console.log('TODO')}
+              />
+            </Tooltip>
           </Flex>
         ),
       },

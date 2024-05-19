@@ -83,4 +83,16 @@ export class PrismaParkMovementsRepository implements ParkMovementsRepository {
       },
     })
   }
+
+  async isVehicleParkedByPlate(plate: string): Promise<boolean> {
+    return !!(await prisma.parkMovement.findFirst({
+      where: { vehicle: { plate } },
+    }))
+  }
+
+  async isVehicleParkedByCardId(cardId: string): Promise<boolean> {
+    return !!(await prisma.parkMovement.findFirst({
+      where: { vehicle: { customer: { cardId } } },
+    }))
+  }
 }

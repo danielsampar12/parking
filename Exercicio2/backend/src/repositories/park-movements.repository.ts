@@ -23,4 +23,6 @@ export interface ParkMovementsRepository {
   findParked(
     pagination: PaginationParams,
   ): Promise<ParkMovementWithVehicleAndCardId[]>
+  isVehicleParkedByPlate(plate: string): Promise<boolean>
+  isVehicleParkedByCardId(cardId: string): Promise<boolean>
 }

@@ -22,7 +22,7 @@ model Customer {
   // Como pede no enunciado: "Caso o veículo não esteja cadastrado na base de dados deverá cadastrar o mesmo sem vínculo com cliente, pois ele será um veículo rotativo."
 
   // DECIDI SEGUIR O ERD
-  cardId       String        @map("card_id") @db.VarChar(10)
+  cardId       String        @unique @map("card_id") @db.VarChar(10)
   Vehicle      Vehicle[]
   CustomerPlan CustomerPlan?
 

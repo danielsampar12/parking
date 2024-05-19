@@ -48,4 +48,8 @@ export class PrismaCustomerRepository implements CustomersRepository {
       },
     })
   }
+
+  async findByCardId(cardId: string): Promise<Customer | null> {
+    return await prisma.customer.findUnique({ where: { cardId } })
+  }
 }

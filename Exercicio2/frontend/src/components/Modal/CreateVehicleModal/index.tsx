@@ -21,7 +21,7 @@ import { DefaultModalProps } from '../DefaultModalProps'
 import {
   CreateVehicleBodySchema,
   createVehicleBodySchema,
-} from '@/lib/zod/createVehicleSchema'
+} from '@/lib/zod/vehicles/createVehicleSchema'
 import { useMutationCreateCar } from '@/hooks/mutations/useMutationCreateVehicle'
 import { ZodError } from 'zod'
 import { useState } from 'react'

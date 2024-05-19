@@ -27,7 +27,7 @@ import { useMutationCreateCustomer } from '@/hooks/mutations/useMutationCreateCu
 import {
   CreateCustomerBodySchema,
   createCustomerBodySchema,
-} from '@/lib/zod/createCustomerSchema'
+} from '@/lib/zod/customers/createCustomerSchema'
 import { FlattenErrorsType } from '@/lib/zod/FlattenErrorsType'
 
 export function CreateCustomerModal({ isOpen, onClose }: DefaultModalProps) {

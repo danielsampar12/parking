@@ -26,6 +26,10 @@ yarn install
 pnpm install
 ```
 
+### 1. Arquivo .env.local
+
+Certifique-se de que existe um arquivo `.env.local` na raiz do projeto com a variável `VITE_API_URL='http://localhost:3333'` para teste local. 
+
 ## Execução
 
 Para iniciar a aplicação em modo de desenvolvimento, utilize o comando abaixo. Este comando irá iniciar o servidor de desenvolvimento do Vite.

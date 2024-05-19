@@ -3,4 +3,5 @@ export const QUERY_KEY = {
   plans: 'plans',
   customers: 'customers',
   vehicles: 'vehicles',
+  isParked: 'isParked',
 }

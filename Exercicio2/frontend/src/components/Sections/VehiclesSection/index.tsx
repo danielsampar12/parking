@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 export function VehiclesSection() {
   const [page, setPage] = useState(1)
-  const take = 10
+  const take = 8
   const { data, isError, isLoading } = useQueryVehicles({ page, take })
 
   return (

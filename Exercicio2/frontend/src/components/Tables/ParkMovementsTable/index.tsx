@@ -55,6 +55,19 @@ export function ParkMovementsTable({
         ),
       },
       {
+        accessorKey: 'vehicle.model',
+        header: 'Modelo',
+        cell: ({ row }) => (
+          <Flex flexDir="column" justifyContent="flex-start" gap={1}>
+            <Text fontWeight="bold">
+              {row.original.vehicle.model
+                ? row.original.vehicle.model
+                : 'SEM MODELO'}
+            </Text>
+          </Flex>
+        ),
+      },
+      {
         accessorKey: 'vehicle.customer.cardId',
         // Pelo ERD enviado o cardId pertence ao Customer...
         // Me parece que ta errado, porque pelo enunciado da a entender que cardId é obrigatório

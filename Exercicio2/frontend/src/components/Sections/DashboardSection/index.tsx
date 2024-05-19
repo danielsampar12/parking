@@ -3,6 +3,7 @@ import { Pagination } from '@/components/Pagination'
 import { ParkMovementsTable } from '@/components/Tables/ParkMovementsTable'
 import { useMutationEntryCar } from '@/hooks/mutations/useMutationEntryCar'
 import { useMutationExitCar } from '@/hooks/mutations/useMutationExitCar'
+import { useQueryIsVehicleParked } from '@/hooks/queries/useQueryIsVehicleParked'
 import { useQueryParked } from '@/hooks/queries/useQueryParked'
 import { ExitCarResponse } from '@/services/parkmovements/exitCar'
 import {
@@ -13,7 +14,7 @@ import {
   Spinner,
   useBreakpoint,
 } from '@chakra-ui/react'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 export function DashboardSection() {
   const [plateOrCardId, setPlateOrCardId] = useState('')
@@ -27,22 +28,15 @@ export function DashboardSection() {
 
   const breakpoint = useBreakpoint()
 
+  const { data: isExitButton } = useQueryIsVehicleParked({
+    plate: entryInputType === 'plate' ? plateOrCardId : undefined,
+    cardId: entryInputType === 'cardId' ? plateOrCardId : undefined,
+  })
+
   const { data, isLoading, isError } = useQueryParked({ page, take })
 
   const { mutate: entryCar, isPending } = useMutationEntryCar()
   const { mutateAsync: exitCar } = useMutationExitCar()
-
-  const isExitButton = useMemo(() => {
-    if (!data) return false
-
-    return !!data.find(
-      ({ vehicle }) =>
-        vehicle.plate === plateOrCardId.toUpperCase() ||
-        (!vehicle.customer
-          ? false
-          : vehicle.customer.cardId === plateOrCardId.toUpperCase()),
-    )
-  }, [data, plateOrCardId])
 
   function handleSelectEntryInputType(value: string) {
     if (value !== 'plate' && value !== 'cardId') {

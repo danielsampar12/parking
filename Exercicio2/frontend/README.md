@@ -1,30 +1,74 @@
-# React + TypeScript + Vite
+# Exercício 2 - frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é um projeto que utiliza Vite e React para implementação de um frontend para gerenciamento de um estacionamento.
 
-Currently, two official plugins are available:
+## Pré-requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Certifique-se de ter o Node.js e um gerenciador de pacotes (npm ou yarn) instalados na sua máquina.
 
-## Expanding the ESLint configuration
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/), [yarn](https://yarnpkg.com/) [pnpm](https://pnpm.io/)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Instalação
 
-- Configure the top-level `parserOptions` property like this:
+Para instalar as dependências do projeto, utilize o comando abaixo com seu gerenciador de pacotes preferido.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```sh
+### Usando npm
+npm install
+
+### Usando yarn
+
+yarn install
+
+### Usando pnpm
+
+pnpm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Execução
+
+Para iniciar a aplicação em modo de desenvolvimento, utilize o comando abaixo. Este comando irá iniciar o servidor de desenvolvimento do Vite.
+
+```sh
+### Usando npm
+npm run dev
+
+### Usando yarn
+
+yarn dev
+
+### Usando pnpm
+
+pnpm dev
+```
+
+Para criar uma build para produção, utilize o comando abaixo. Os arquivos de build serão gerados na pasta dist.
+
+```sh
+### Usando npm
+npm run build
+
+### Usando yarn
+
+yarn build
+
+### Usando pnpm
+
+pnpm build
+```
+
+Para a visualização da versão de produção
+
+```sh
+### Usando npm
+npm run preview
+
+### Usando yarn
+
+yarn preview
+
+### Usando pnpm
+
+pnpm preview
+```

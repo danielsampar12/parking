@@ -105,8 +105,6 @@ export function CreateContractModal({ isOpen, onClose }: DefaultModalProps) {
 
       const body = createContractBodySchema.parse(contract)
 
-      console.log(body)
-
       await createContract(body)
 
       handleCloseModal()
@@ -198,7 +196,6 @@ export function CreateContractModal({ isOpen, onClose }: DefaultModalProps) {
                     placeholder="Valor"
                     isInvalid={!!zodFlattenErrors.contractRules?.length}
                     onChange={(e) => {
-                      console.log(e.target.value)
                       setNewRule({
                         ...newRule,
                         value: e.target.value,

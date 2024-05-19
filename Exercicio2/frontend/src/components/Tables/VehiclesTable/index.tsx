@@ -23,10 +23,11 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Vehicle } from '@/types/serverTypes/Vehicle'
 import { MdEdit } from 'react-icons/md'
+import { UpdateVehicleModal } from '@/components/Modal/UpdateVehicleModal'
 
 interface VehiclesTableProps {
   data: Vehicle[]
@@ -39,6 +40,15 @@ export function VehiclesTable({
   isError,
   isLoading,
 }: VehiclesTableProps) {
+  const [updateVehicle, setUpdateVehicle] = useState<Vehicle | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
+
+  function handleCloseUpdateVehicle() {
+    setUpdateVehicle(null)
+
+    setIsOpen(false)
+  }
+
   const breakpoint = useBreakpoint()
 
   const columns: ColumnDef<Vehicle>[] = useMemo(
@@ -91,7 +101,10 @@ export function VehiclesTable({
                       colorScheme="gray"
                       w="fit-content"
                       icon={<MdEdit />}
-                      onClick={() => console.log('TODO')}
+                      onClick={() => {
+                        setUpdateVehicle(row.original)
+                        setIsOpen(true)
+                      }}
                     />
                   </Tooltip>
                 </Flex>
@@ -135,7 +148,10 @@ export function VehiclesTable({
                       colorScheme="gray"
                       w="fit-content"
                       icon={<MdEdit />}
-                      onClick={() => console.log('TODO')}
+                      onClick={() => {
+                        setUpdateVehicle(row.original)
+                        setIsOpen(true)
+                      }}
                     />
                   </Tooltip>
                 </Flex>
@@ -187,32 +203,43 @@ export function VehiclesTable({
   }
 
   return (
-    <TableContainer w="full" h="full" pt="20px">
-      <Table variant="simple">
-        <Thead>
-          {headerGroups.map((headerGroup) => (
-            <Tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <Th className="th" key={header.id}>
-                  {/* {header.column.columnDef.header} */}
-                  {header.column.columnDef.header?.toString()}
-                </Th>
-              ))}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody>
-          {table.getRowModel().rows.map((row) => (
-            <Tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <Td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </Td>
-              ))}
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <>
+      {updateVehicle ? (
+        <UpdateVehicleModal
+          vehicle={updateVehicle}
+          isOpen={isOpen}
+          onClose={handleCloseUpdateVehicle}
+        />
+      ) : (
+        <></>
+      )}
+      <TableContainer w="full" h="full" pt="20px">
+        <Table variant="simple">
+          <Thead>
+            {headerGroups.map((headerGroup) => (
+              <Tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Th className="th" key={header.id}>
+                    {/* {header.column.columnDef.header} */}
+                    {header.column.columnDef.header?.toString()}
+                  </Th>
+                ))}
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody>
+            {table.getRowModel().rows.map((row) => (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </>
   )
 }

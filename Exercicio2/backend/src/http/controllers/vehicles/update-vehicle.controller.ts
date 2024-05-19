@@ -7,8 +7,8 @@ const updateVehicleBodySchema = z.object({
   vehicleId: z.number(),
   data: z.object({
     plate: z.string().max(10).optional(),
-    model: z.string().max(30).optional(),
-    description: z.string().max(50).optional(),
+    model: z.string().max(30).optional().nullable(),
+    description: z.string().max(50).optional().nullable(),
   }),
 })
 

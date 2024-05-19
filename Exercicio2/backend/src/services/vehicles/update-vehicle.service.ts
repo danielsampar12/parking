@@ -6,8 +6,8 @@ interface UpdateVehicleRequest {
   vehicleId: number
   data: {
     plate?: string
-    model?: string
-    description?: string
+    model?: string | null
+    description?: string | null
   }
 }
 

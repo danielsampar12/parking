@@ -13,7 +13,6 @@ export async function isVehicleParkByCardIdController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  console.log('cardID controller')
   const params = isVehicleParkByCardIdBodySchema.parse(
     JSON.parse(JSON.stringify(request.query)),
   )

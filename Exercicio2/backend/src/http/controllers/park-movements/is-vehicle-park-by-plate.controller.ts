@@ -13,7 +13,6 @@ export async function isVehicleParkByPlateController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  console.log('plate controller')
   const params = isVehicleParkByPlateBodySchema.parse(
     JSON.parse(JSON.stringify(request.query)),
   )

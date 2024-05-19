@@ -1,4 +1,5 @@
 export type ContractRule = {
+  id?: number
   until: number
   value: number
 }

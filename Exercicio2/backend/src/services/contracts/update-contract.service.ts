@@ -33,7 +33,8 @@ export class UpdateContractService {
     }
 
     const prismaData: Prisma.ContractUpdateInput = {
-      ...data,
+      description: data.description,
+      maxValue: data.maxValue,
       ContractRule: {
         set: data.contractRules.map((rule) => rule),
       },

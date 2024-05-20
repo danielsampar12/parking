@@ -53,6 +53,10 @@ export class CalculateExitCarValueService {
         value = contractRules[i].value
         break
       }
+
+      if (i === contractRules.length - 1) {
+        value = contractRules[i].value
+      }
     }
 
     if (contract.maxValue && value > contract.maxValue) {

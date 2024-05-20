@@ -15,7 +15,9 @@ export class PrismaCustomerRepository implements CustomersRepository {
   }
 
   async create(data: Prisma.CustomerCreateInput): Promise<Customer> {
-    return await prisma.customer.create({ data })
+    return await prisma.customer.create({
+      data: { ...data, cardId: data.cardId.toUpperCase() },
+    })
   }
 
   async findById(id: number) {

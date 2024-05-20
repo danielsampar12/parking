@@ -40,7 +40,7 @@ export class EntryCarService {
         vehicle: {
           connectOrCreate: {
             where: { plate },
-            create: { plate },
+            create: { plate: plate.toUpperCase() },
           },
         },
       })

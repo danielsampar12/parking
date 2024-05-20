@@ -3,6 +3,7 @@ import {
   Heading,
   Link as LinkChakra,
   ListIcon,
+  Icon,
   Text,
 } from '@chakra-ui/react'
 
@@ -14,10 +15,37 @@ interface NavItemProps {
   item: Item
   isActive: boolean
   setPath: React.Dispatch<React.SetStateAction<DashboardSections>>
+  isHorizontalSideBar?: boolean
 }
 
-export function NavItem({ item, isActive, setPath }: NavItemProps) {
+export function NavItem({
+  item,
+  isActive,
+  setPath,
+  isHorizontalSideBar = false,
+}: NavItemProps) {
   const { label } = item
+
+  if (isHorizontalSideBar && item.type === 'link') {
+    const { icon } = item
+    return (
+      <Box display="flex" alignItems="center" my={6} justifyContent="center">
+        <LinkChakra
+          gap={1}
+          display="flex"
+          alignItems="center"
+          _hover={{ textDecoration: 'none', color: 'black' }}
+          fontWeight="medium"
+          color={isActive ? 'black' : 'gray.500'}
+          w="full"
+          justifyContent={'center'}
+          onClick={() => setPath(item.path)}
+        >
+          <Icon as={icon} fontSize={28} m="0" />
+        </LinkChakra>
+      </Box>
+    )
+  }
 
   if (item.type === 'link') {
     const { icon } = item

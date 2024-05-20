@@ -1,4 +1,4 @@
-import { List, ListItem, Tooltip } from '@chakra-ui/react'
+import { HStack, List, ListItem, Tooltip } from '@chakra-ui/react'
 import { IconType } from 'react-icons'
 
 import { DashboardSections } from '@/constants/dashboardSections'
@@ -16,13 +16,31 @@ interface NavigationComponentProps {
   items: Item[]
   selectedPath: DashboardSections
   setPath: React.Dispatch<React.SetStateAction<DashboardSections>>
+  isHorizontal?: boolean
 }
 
 export function Navigation({
   items,
   selectedPath,
   setPath,
+  isHorizontal = false,
 }: NavigationComponentProps) {
+  if (isHorizontal) {
+    return (
+      <HStack gap={5} w="full" justify="space-around">
+        {items.map((item) => (
+          <NavItem
+            item={item}
+            key={item.path}
+            isActive={item.path === selectedPath}
+            setPath={setPath}
+            isHorizontalSideBar
+          />
+        ))}
+      </HStack>
+    )
+  }
+
   return (
     <List w="full" my={8}>
       {items.map((item, index) => (

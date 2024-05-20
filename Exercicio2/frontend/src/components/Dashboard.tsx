@@ -50,7 +50,7 @@ export function Dashboard() {
     },
   ]
 
-  if (breakpoint === 'sm') {
+  if (breakpoint === 'sm' || breakpoint === 'base') {
     return (
       <VStack
         w="full"
@@ -59,19 +59,21 @@ export function Dashboard() {
         padding="8px"
       >
         <Flex
-          as="aside"
           w="full"
-          h="full"
-          maxW={100}
           bg="white"
-          alignItems="start"
-          padding={6}
-          flexDirection="column"
-          justifyContent="space-between"
+          alignItems="center"
+          justify="center"
+          padding={2}
+          flexDirection="row"
           transition="ease-in-out .2s"
           borderRadius="3xl"
         >
-          <Sidebar sections={sections} selectedPath={path} setPath={setPath} />
+          <Sidebar
+            sections={sections}
+            selectedPath={path}
+            setPath={setPath}
+            isHorizontal
+          />
         </Flex>
         <Flex
           as="main"

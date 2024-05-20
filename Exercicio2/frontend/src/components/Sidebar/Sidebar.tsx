@@ -8,15 +8,22 @@ interface LogoProps {
   sections: Item[]
   selectedPath: DashboardSections
   setPath: React.Dispatch<React.SetStateAction<DashboardSections>>
+  isHorizontal?: boolean
 }
 
-export function Sidebar({ sections, selectedPath, setPath }: LogoProps) {
+export function Sidebar({
+  sections,
+  selectedPath,
+  setPath,
+  isHorizontal = false,
+}: LogoProps) {
   return (
     <Box w="full">
       <Navigation
         items={sections}
         selectedPath={selectedPath}
         setPath={setPath}
+        isHorizontal={isHorizontal}
       />
     </Box>
   )

@@ -23,6 +23,9 @@ import {
   IconButton,
   Input,
   Spinner,
+  Wrap,
+  WrapItem,
+  useBreakpoint,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -35,6 +38,8 @@ export function ContractSection() {
     description: false,
     maxValue: false,
   })
+
+  const breakpoint = useBreakpoint()
 
   const [isCreateContractModalOpen, setIsCreateContractModalOpen] =
     useState(false)
@@ -132,7 +137,7 @@ export function ContractSection() {
   return (
     <Flex w="full" flex={1} flexDir="column" justify="flex-start">
       <Heading size="xl">Contrato</Heading>
-      <Flex flexDir="row" align="flex-end" gap={5}>
+      <Flex flexDir="row" align="flex-end" gap={5} mt={2}>
         <Grid w="50%" templateColumns="repeat(3, 1fr)" gap={5}>
           <GridItem colSpan={2}>
             <FormControl>
@@ -194,24 +199,37 @@ export function ContractSection() {
         </Button>
       </Flex>
 
-      <FormControl>
-        <FormLabel>Regras</FormLabel>
-        {contractRules.map(({ until, value }, index) => (
-          <HStack gap={2} mb={5} key={`${until}-${value},${index}`}>
-            <Flex w="full">
-              <Grid w="full" templateColumns="repeat(2, 1fr)" gap={1}>
-                <Input w="full" type="tel" value={until} isDisabled />
-                <Input
-                  w="full"
-                  type="tel"
-                  value={formatFloatToBRL(value)}
-                  isDisabled
-                />
-              </Grid>
-            </Flex>
-          </HStack>
-        ))}
-      </FormControl>
+      {breakpoint === 'xl' ? (
+        <FormControl mt={2}>
+          <FormLabel>Regras</FormLabel>
+          <Wrap>
+            {contractRules.map(({ until, value }, index) => (
+              <WrapItem key={`${until}-${value},${index}`}>
+                <HStack gap={2} mb={5}>
+                  <Flex>
+                    <Grid templateColumns="repeat(2, 1fr)" gap={1}>
+                      <Input
+                        w="fit-content"
+                        type="tel"
+                        value={until}
+                        isDisabled
+                      />
+                      <Input
+                        w="fit-content"
+                        type="tel"
+                        value={formatFloatToBRL(value)}
+                        isDisabled
+                      />
+                    </Grid>
+                  </Flex>
+                </HStack>
+              </WrapItem>
+            ))}
+          </Wrap>
+        </FormControl>
+      ) : (
+        <></>
+      )}
     </Flex>
   )
 }

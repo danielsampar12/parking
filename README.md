@@ -1,6 +1,4 @@
-# Projeto de Avaliação CloudPark - Desenvolvedor FullStack Pleno
-
-Este repositório contém dois exercícios destinados a avaliar habilidades específicas em programação e desenvolvimento de software. 
+# Este repositório contém dois exercícios destinados a avaliar habilidades específicas em programação e desenvolvimento de software. 
 
 ## Exercício 1 - Programa de leitura e gravação em arquivo .json
 
